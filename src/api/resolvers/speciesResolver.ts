@@ -1,3 +1,5 @@
+import {Animal} from '../../types/DBTypes';
+
 // TODO: speciesResolver
 const speciesData = [
   {
@@ -8,6 +10,13 @@ const speciesData = [
 ];
 
 export default {
+  Animal: {
+    species: (parent: Animal) => {
+      const parentId = parent.species as unknown as string;
+      const result = speciesData.find((spec) => spec.id === parentId);
+      return result;
+    },
+  },
   Query: {
     species: () => {
       return speciesData;

@@ -7,22 +7,7 @@ const animalData = [
     species: '1',
   },
 ];
-/*
-const speciesData = [
-  {
-    id: '1',
-    species_name: 'Cat',
-    category: '1',
-  },
-];
 
-const categoryData = [
-  {
-    id: '1',
-    category_name: 'Mammal',
-  },
-];
-*/
 export default {
   Query: {
     animals: () => {

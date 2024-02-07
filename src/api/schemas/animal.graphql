@@ -1,7 +1,7 @@
 type Animal {
-  id: ID
-  animal_name: String
-  species: Int
+  id: ID!
+  animal_name: String!
+  species: Species!
 }
 
 type Query {

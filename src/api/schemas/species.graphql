@@ -1,7 +1,7 @@
 type Species {
-  id: ID
-  species_name: String
-  category: Int
+  id: ID!
+  species_name: String!
+  category: Category!
 }
 
 type Query {
