@@ -1,0 +1,9 @@
+type Species {
+  id: ID
+  species_name: String
+  category: Int
+}
+
+type Query {
+  species: [Species]
+}
