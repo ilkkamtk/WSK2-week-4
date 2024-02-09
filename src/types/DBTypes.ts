@@ -2,12 +2,12 @@ import {Point} from 'geojson';
 import {Document, Types} from 'mongoose';
 
 type Category = {
-  _id: Types.ObjectId;
+  id: Types.ObjectId;
   category_name: string;
 };
 
 type Animal = {
-  _id: Types.ObjectId;
+  id: Types.ObjectId;
   animal_name: string;
   species: Types.ObjectId;
   birthdate: Date;
@@ -20,7 +20,7 @@ type FullAnimal = Omit<Animal, 'species'> & {
 };
 
 type Species = {
-  _id: Types.ObjectId;
+  id: Types.ObjectId;
   species_name: string;
   category: Types.ObjectId;
   image: string;
@@ -32,7 +32,7 @@ type FullSpecies = Omit<Species, 'category'> & {
 };
 
 type User = Partial<Document> & {
-  _id: Types.ObjectId | string;
+  id: Types.ObjectId | string;
   user_name: string;
   email: string;
   role: 'user' | 'admin';

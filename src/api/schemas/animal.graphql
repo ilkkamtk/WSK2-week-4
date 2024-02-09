@@ -7,3 +7,12 @@ type Animal {
 type Query {
   animals: [Animal]
 }
+
+input InputAnimal {
+  animal_name: String!
+  species_id: ID!
+}
+
+type Mutation {
+  addAnimal(input: InputAnimal): Animal
+}

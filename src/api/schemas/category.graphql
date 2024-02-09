@@ -6,3 +6,7 @@ type Category {
 type Query {
   categories: [Category]
 }
+
+type Mutation {
+  addCategory(category_name: String): Category
+}

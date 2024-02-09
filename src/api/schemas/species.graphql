@@ -7,3 +7,12 @@ type Species {
 type Query {
   species: [Species]
 }
+
+input InputSpecies {
+  species_name: String!
+  category_id: ID!
+}
+
+type Mutation {
+  addSpecies(input: InputSpecies): Species
+}

@@ -1,4 +1,5 @@
 import {Species} from '../../types/DBTypes';
+import CategoryModel from '../models/categoryModel';
 
 // TODO: categoryResolver
 const categoryData = [
@@ -21,6 +22,14 @@ export default {
   Query: {
     categories: () => {
       return categoryData;
+    },
+  },
+  Mutation: {
+    addCategory: async (_parent: undefined, args: {category_name: string}) => {
+      console.log(args.category_name);
+      // vaihtoehto create funktiolle
+      const newCategory = new CategoryModel(args);
+      return newCategory.save();
     },
   },
 };

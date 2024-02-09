@@ -1,4 +1,5 @@
-import {Animal} from '../../types/DBTypes';
+import {Animal, Species} from '../../types/DBTypes';
+import SpeciesModel from '../models/speciesModel';
 
 // TODO: speciesResolver
 const speciesData = [
@@ -20,6 +21,14 @@ export default {
   Query: {
     species: () => {
       return speciesData;
+    },
+  },
+  Mutation: {
+    addSpecies: async (
+      _parent: undefined,
+      args: {input: Pick<Species, 'species_name' | 'category'>},
+    ) => {
+      return await SpeciesModel.create(args.input);
     },
   },
 };
