@@ -7,6 +7,13 @@ type Query {
   categories: [Category]
 }
 
+input InputCategory {
+  id: ID!
+  category_name: String!
+}
+
 type Mutation {
   addCategory(category_name: String): Category
+  deleteCategory(id: ID!): Category
+  updateCategory(input: InputCategory): Category
 }

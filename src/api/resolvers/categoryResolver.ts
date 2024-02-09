@@ -1,27 +1,17 @@
 import {Species} from '../../types/DBTypes';
+import AnimalModel from '../models/animalModel';
 import CategoryModel from '../models/categoryModel';
-
-// TODO: categoryResolver
-const categoryData = [
-  {
-    id: '1',
-    category_name: 'Mammal',
-  },
-];
+import SpeciesModel from '../models/speciesModel';
 
 export default {
   Species: {
-    category: (parent: Species) => {
-      console.log(parent);
-      const parentId = parent.category as unknown as string;
-      const result = categoryData.find((cat) => cat.id === parentId);
-      console.log(result);
-      return result;
+    category: async (parent: Species) => {
+      return await CategoryModel.findById(parent.category);
     },
   },
   Query: {
-    categories: () => {
-      return categoryData;
+    categories: async () => {
+      return await CategoryModel.find();
     },
   },
   Mutation: {
@@ -30,6 +20,28 @@ export default {
       // vaihtoehto create funktiolle
       const newCategory = new CategoryModel(args);
       return newCategory.save();
+    },
+    deleteCategory: async (_parent: undefined, args: {id: string}) => {
+      // delete animals with this category
+      const species = await SpeciesModel.find({category: args.id});
+      for (const specie of species) {
+        await AnimalModel.deleteMany({
+          species: specie._id,
+        });
+      }
+      // delete species with this category
+      await SpeciesModel.deleteMany({category: args.id});
+      return await CategoryModel.findByIdAndDelete(args.id);
+    },
+    updateCategory: async (
+      _parent: undefined,
+      args: {id: string; category_name: string},
+    ) => {
+      return await CategoryModel.findByIdAndUpdate(
+        args.id,
+        {category_name: args.category_name},
+        {new: true},
+      );
     },
   },
 };

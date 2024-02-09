@@ -1,7 +1,18 @@
+type GeoPoint {
+  type: Point!
+  coordinates: [Float]!
+}
+
+enum Point {
+  Point
+}
+
 type Species {
   id: ID!
   species_name: String!
   category: Category!
+  image: String!
+  location: GeoPoint!
 }
 
 type Query {
@@ -10,9 +21,25 @@ type Query {
 
 input InputSpecies {
   species_name: String!
-  category_id: ID!
+  category: ID!
+  image: String!
+  location: InputGeoPoint!
+}
+
+input InputGeoPoint {
+  type: Point!
+  coordinates: [Float]!
+}
+
+input UpdateSpecies {
+  species_name: String
+  category: ID
+  image: String
+  location: InputGeoPoint
 }
 
 type Mutation {
   addSpecies(input: InputSpecies): Species
+  deleteSpecies(id: ID!): Species
+  updateSpecies(id: ID!, input: UpdateSpecies!): Species
 }

@@ -1,34 +1,37 @@
 import {Animal, Species} from '../../types/DBTypes';
+import AnimalModel from '../models/animalModel';
 import SpeciesModel from '../models/speciesModel';
-
-// TODO: speciesResolver
-const speciesData = [
-  {
-    id: '1',
-    species_name: 'Cat',
-    category: '1',
-  },
-];
 
 export default {
   Animal: {
-    species: (parent: Animal) => {
-      const parentId = parent.species as unknown as string;
-      const result = speciesData.find((spec) => spec.id === parentId);
-      return result;
+    species: async (parent: Animal) => {
+      return await SpeciesModel.findById(parent.species);
     },
   },
   Query: {
-    species: () => {
-      return speciesData;
+    species: async () => {
+      return await SpeciesModel.find();
     },
   },
   Mutation: {
     addSpecies: async (
       _parent: undefined,
-      args: {input: Pick<Species, 'species_name' | 'category'>},
+      args: {input: Omit<Species, 'id'>},
     ) => {
       return await SpeciesModel.create(args.input);
+    },
+    deleteSpecies: async (_parent: undefined, args: {id: string}) => {
+      // delete animals with this species
+      await AnimalModel.deleteMany({species: args.id});
+      return await SpeciesModel.findByIdAndDelete(args.id);
+    },
+    updateSpecies: async (
+      _parent: undefined,
+      args: {id: string; input: Partial<Omit<Species, 'id'>>},
+    ) => {
+      return await SpeciesModel.findByIdAndUpdate(args.id, args.input, {
+        new: true,
+      });
     },
   },
 };
