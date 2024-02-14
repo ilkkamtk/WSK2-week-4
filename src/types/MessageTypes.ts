@@ -1,4 +1,4 @@
-import {Types} from 'mongoose';
+import {Point} from 'geojson';
 import {UserOutput} from './DBTypes';
 
 type MessageResponse = {
@@ -9,13 +9,26 @@ type ErrorResponse = MessageResponse & {
   stack?: string;
 };
 
-type PostMessage = MessageResponse & {
-  _id: Types.ObjectId;
+type UserResponse = MessageResponse & {
+  user: UserOutput;
 };
 
-type LoginResponse = {
+type LoginResponse = MessageResponse & {
   token: string;
   user: UserOutput;
 };
 
-export {MessageResponse, ErrorResponse, PostMessage, LoginResponse};
+type UploadResponse = MessageResponse & {
+  data: {
+    filename: string;
+    location: Point;
+  };
+};
+
+export {
+  MessageResponse,
+  ErrorResponse,
+  UserResponse,
+  LoginResponse,
+  UploadResponse,
+};

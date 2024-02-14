@@ -21,7 +21,7 @@ export default {
     deleteAnimal: async (_parent: undefined, args: {id: string}) => {
       return await AnimalModel.findByIdAndDelete(args.id);
     },
-    upateAnimal: async (
+    updateAnimal: async (
       _parent: undefined,
       args: {id: string; input: Partial<Omit<Animal, 'id'>>},
     ) => {
