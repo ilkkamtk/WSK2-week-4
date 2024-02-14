@@ -17,6 +17,8 @@ import {
   constraintDirectiveTypeDefs,
   createApollo4QueryValidationPlugin,
 } from 'graphql-constraint-directive/apollo4';
+import {MyContext} from './types/MyContext';
+import authenticate from './lib/authenticate';
 
 const app = express();
 
@@ -40,7 +42,7 @@ const app = express();
       resolvers,
     });
 
-    const server = new ApolloServer({
+    const server = new ApolloServer<MyContext>({
       schema,
       plugins: [
         createApollo4QueryValidationPlugin({schema}),
@@ -52,7 +54,14 @@ const app = express();
 
     await server.start();
 
-    app.use('/graphql', cors(), express.json(), expressMiddleware(server));
+    app.use(
+      '/graphql',
+      cors(),
+      express.json(),
+      expressMiddleware(server, {
+        context: ({req}) => authenticate(req),
+      }),
+    );
 
     app.use(notFound);
     app.use(errorHandler);

@@ -47,6 +47,11 @@ type UserTest = Partial<User>;
 
 type LoginUser = Omit<User, 'password'>;
 
+type TokenContent = {
+  token: string;
+  user: LoginUser;
+};
+
 export {
   Category,
   Animal,
@@ -58,4 +63,5 @@ export {
   UserInput,
   UserTest,
   LoginUser,
+  TokenContent,
 };
