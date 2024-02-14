@@ -34,5 +34,5 @@ input Credentials {
 
 type Mutation {
   register(user: UserInput!): UserResponse
-  login(credentials: Credentials!)
+  login(credentials: Credentials!): LoginResponse
 }
