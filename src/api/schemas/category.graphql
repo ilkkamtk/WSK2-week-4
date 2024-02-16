@@ -13,7 +13,18 @@ input InputCategory {
 }
 
 type Mutation {
+  """
+  Admin token is required to access this mutation
+  """
   addCategory(category_name: String): Category
+
+  """
+  Admin token is required to access this mutation
+  """
   deleteCategory(id: ID!): Category
+
+  """
+  Admin token is required to access this mutation
+  """
   updateCategory(id: ID!, category_name: String): Category
 }

@@ -6,6 +6,9 @@ type Animal {
   species: Species!
   birthdate: Date!
   gender: Gender!
+  location: GeoPoint!
+  owner: User!
+  filename: String!
 }
 
 enum Gender {
@@ -23,6 +26,8 @@ input InputAnimal {
   species: ID!
   birthdate: Date!
   gender: Gender!
+  location: InputGeoPoint!
+  image: String!
 }
 
 input UpdateAnimal {
@@ -30,10 +35,22 @@ input UpdateAnimal {
   species: ID!
   birthdate: Date!
   gender: Gender!
+  location: InputGeoPoint!
 }
 
 type Mutation {
+  """
+  Token is required to access this mutation
+  """
   addAnimal(input: InputAnimal): Animal
+
+  """
+  Token is required to access this mutation
+  """
   deleteAnimal(id: ID!): Animal
+
+  """
+  Token is required to access this mutation
+  """
   updateAnimal(id: ID!, input: UpdateAnimal!): Animal
 }

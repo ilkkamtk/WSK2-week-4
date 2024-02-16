@@ -23,6 +23,25 @@ const animalSchema = new mongoose.Schema<Animal>({
     enum: ['Male', 'Female'],
     required: true,
   },
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
 });
 
 const AnimalModel = mongoose.model<Animal>('Animal', animalSchema);

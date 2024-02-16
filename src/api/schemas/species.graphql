@@ -13,6 +13,7 @@ type Species {
   category: Category!
   image: String!
   location: GeoPoint!
+  owner: User!
 }
 
 type Query {
@@ -39,7 +40,18 @@ input UpdateSpecies {
 }
 
 type Mutation {
+  """
+  Token is required to access this mutation
+  """
   addSpecies(input: InputSpecies): Species
+
+  """
+  Token is required to access this mutation
+  """
   deleteSpecies(id: ID!): Species
+
+  """
+  Token is required to access this mutation
+  """
   updateSpecies(id: ID!, input: UpdateSpecies!): Species
 }

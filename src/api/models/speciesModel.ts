@@ -28,6 +28,10 @@ const speciesSchema = new mongoose.Schema<Species>({
       required: true,
     },
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 });
 
 const SpeciesModel = mongoose.model<Species>('Species', speciesSchema);
