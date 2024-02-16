@@ -15,6 +15,7 @@ const isLoggedIn = (context: MyContext): void => {
 };
 
 const isAdmin = (context: MyContext): void => {
+  isLoggedIn(context);
   if (context.userdata && context.userdata.user.role !== 'admin') {
     throw new GraphQLError('Not authorized', {
       extensions: {

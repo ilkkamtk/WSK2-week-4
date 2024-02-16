@@ -1,10 +1,9 @@
-import {GraphQLError} from 'graphql';
 import {Species} from '../../types/DBTypes';
 import {MyContext} from '../../types/MyContext';
 import AnimalModel from '../models/animalModel';
 import CategoryModel from '../models/categoryModel';
 import SpeciesModel from '../models/speciesModel';
-import {isAdmin, isLoggedIn} from '../../lib/authorize';
+import {isAdmin} from '../../lib/authorize';
 
 export default {
   Species: {
@@ -23,13 +22,17 @@ export default {
       args: {category_name: string},
       context: MyContext,
     ) => {
-      isLoggedIn(context);
       isAdmin(context);
       // vaihtoehto create funktiolle
       const newCategory = new CategoryModel(args);
       return newCategory.save();
     },
-    deleteCategory: async (_parent: undefined, args: {id: string}) => {
+    deleteCategory: async (
+      _parent: undefined,
+      args: {id: string},
+      context: MyContext,
+    ) => {
+      isAdmin(context);
       // delete animals with this category
       const species = await SpeciesModel.find({category: args.id});
       for (const specie of species) {
@@ -44,7 +47,9 @@ export default {
     updateCategory: async (
       _parent: undefined,
       args: {id: string; category_name: string},
+      context: MyContext,
     ) => {
+      isAdmin(context);
       return await CategoryModel.findByIdAndUpdate(
         args.id,
         {category_name: args.category_name},
