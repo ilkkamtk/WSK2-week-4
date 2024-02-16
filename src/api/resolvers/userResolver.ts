@@ -1,8 +1,22 @@
 import fetchData from '../../lib/fetchData';
-import {User, UserInput} from '../../types/DBTypes';
+import {Animal, Species, User, UserInput} from '../../types/DBTypes';
 import {UserResponse} from '../../types/MessageTypes';
 
 export default {
+  Animal: {
+    owner: async (parent: Animal) => {
+      return await fetchData<User>(
+        `${process.env.AUTH_URL}/users/${parent.owner}`,
+      );
+    },
+  },
+  Species: {
+    owner: async (parent: Species) => {
+      return await fetchData<User>(
+        `${process.env.AUTH_URL}/users/${parent.owner}`,
+      );
+    },
+  },
   Query: {
     users: async () => {
       return await fetchData<User[]>(`${process.env.AUTH_URL}/users`);

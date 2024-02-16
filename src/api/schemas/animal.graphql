@@ -8,7 +8,7 @@ type Animal {
   gender: Gender!
   location: GeoPoint!
   owner: User!
-  filename: String!
+  image: String!
 }
 
 enum Gender {
@@ -16,9 +16,15 @@ enum Gender {
   Female
 }
 
+input Coordinates {
+  lat: Float!
+  lng: Float!
+}
+
 type Query {
   animals: [Animal]
   animal(id: ID!): Animal
+  animalsByArea(topRight: Coordinates!, bottomLeft: Coordinates!): [Animal]
 }
 
 input InputAnimal {

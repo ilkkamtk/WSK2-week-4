@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {isLoggedIn} from '../../lib/authorize';
-import {Animal} from '../../types/DBTypes';
+import {Animal, LocationInput} from '../../types/DBTypes';
 import {MyContext} from '../../types/MyContext';
 import AnimalModel from '../models/animalModel';
 
@@ -12,6 +12,18 @@ export default {
     animal: async (_parent: undefined, args: {id: string}) => {
       return await AnimalModel.findById(args.id);
     },
+    animalsByArea: async (_parent: undefined, args: LocationInput) => {
+      const rightCorner = [args.topRight.lng, args.topRight.lat];
+      const leftCorner = [args.bottomLeft.lng, args.bottomLeft.lat];
+
+      return await AnimalModel.find({
+        location: {
+          $geoWithin: {
+            $box: [leftCorner, rightCorner],
+          },
+        },
+      });
+    },
   },
   Mutation: {
     addAnimal: async (
@@ -20,6 +32,7 @@ export default {
       context: MyContext,
     ) => {
       isLoggedIn(context);
+      args.input.owner = context.userdata?.user.id;
       return await AnimalModel.create(args.input);
     },
     deleteAnimal: async (
@@ -28,7 +41,8 @@ export default {
       context: MyContext,
     ) => {
       isLoggedIn(context);
-      return await AnimalModel.findByIdAndDelete(args.id);
+      const filter = {_id: args.id, owner: context.userdata?.user.id};
+      return await AnimalModel.findOneAndDelete(filter);
     },
     updateAnimal: async (
       _parent: undefined,

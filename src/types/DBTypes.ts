@@ -55,7 +55,21 @@ type TokenContent = {
   user: LoginUser;
 };
 
+// *** db location query
+type Location = {
+  lat: number;
+  lng: number;
+};
+
+type LocationInput = {
+  topRight: Location;
+  bottomLeft: Location;
+};
+// ***
+
 export {
+  Location,
+  LocationInput,
   Category,
   Animal,
   Species,
