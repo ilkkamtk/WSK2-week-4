@@ -1,7 +1,10 @@
+import {GraphQLError} from 'graphql';
 import {Species} from '../../types/DBTypes';
+import {MyContext} from '../../types/MyContext';
 import AnimalModel from '../models/animalModel';
 import CategoryModel from '../models/categoryModel';
 import SpeciesModel from '../models/speciesModel';
+import {isAdmin, isLoggedIn} from '../../lib/authorize';
 
 export default {
   Species: {
@@ -15,8 +18,13 @@ export default {
     },
   },
   Mutation: {
-    addCategory: async (_parent: undefined, args: {category_name: string}) => {
-      console.log(args.category_name);
+    addCategory: async (
+      _parent: undefined,
+      args: {category_name: string},
+      context: MyContext,
+    ) => {
+      isLoggedIn(context);
+      isAdmin(context);
       // vaihtoehto create funktiolle
       const newCategory = new CategoryModel(args);
       return newCategory.save();
